@@ -1,11 +1,22 @@
 const std = @import("std");
+const hashcash = @import("hashcash.zig");
 const net = std.net;
 const thread = std.Thread;
 
 const PORT = 63689;
 const ADDR = "127.0.0.1";
 
+var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+pub const allocator = gpa.allocator();
+
 pub fn main() !void {
+    defer _ = gpa.deinit();
+   
+    var res = try hashcash.process("1:16:060408:anni@cypherspace.org:1:1QTjaYd7niiQA/sc:ePa");
+    std.debug.print("{any}\n", .{res});
+}
+
+pub fn main1() !void {
     const client1_thread = try thread.spawn(.{}, client, .{});
     client1_thread.detach();
 
@@ -26,10 +37,6 @@ pub fn main() !void {
 }
 
 fn handle_accept(conn: net.StreamServer.Connection) !void {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const allocator = gpa.allocator();
-
     std.debug.print("Connection received! {}.\n", .{conn.address});
     while (true) {
         std.time.sleep(std.time.ns_per_s * 1);
