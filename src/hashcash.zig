@@ -110,10 +110,3 @@ pub fn process(str: []const u8) !bool {
     try used_hashes.put(try header.to_string(), {});
     return true;
 }
-
-// pub fn recieve(header: Header) !bool  {
-// _ = header;
-// _ = header;
-// std.crypto.hash.Sha1.init().hash(b: []const u8, out: *[digest_length]u8, options: Options)
-
-// }
