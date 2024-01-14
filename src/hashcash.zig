@@ -71,7 +71,7 @@ const Header = struct {
             5 => 0x1f,
             6 => 0x3f,
             7 => 0x7f,
-            else => unreachable,
+            else => 0x00,
         };
 
         return sha1[bytes + 1] & mask == 0;
